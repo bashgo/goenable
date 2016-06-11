@@ -54,7 +54,7 @@ func gotrue(args []string) C.int {
 
 //export gofalse
 func gofalse(args []string) C.int {
-  fmt.Println("GOFALSE:", types.EXECUTION_FAILURE)
+  fmt.Println("GOFALSE:", bash.EXECUTION_FAILURE)
   return bash.EXECUTION_FAILURE
 }
 
