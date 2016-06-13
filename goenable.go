@@ -55,15 +55,11 @@ struct builtin {
 
 #define BUILTIN_ENABLED 0x01
 
-{{range .Builtins}}
-extern struct builtin {{.Name}}_struct;
-extern char *{{.Name}}_doc[];
-extern {{.Name}}_builtin (WORD_LIST *list);
-{{end}}
 `
 
 	cFile = `
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "{{.Name}}_builtins.h"
 
@@ -74,8 +70,15 @@ Here for convinience
 
 typedef long long GoInt64;
 typedef GoInt64 GoInt;
-typedef struct { char *p; GoInt n; } GoString;
 typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
+typedef struct { char *p; GoInt n; } GoString;
+
+{{range .Builtins}}
+extern struct builtin {{.Name}}_struct;
+extern char *{{.Name}}_doc[];
+extern int {{.Name}}_builtin (WORD_LIST *list);
+extern int {{.Name}} (GoSlice slice);
+{{end}}
 
 /*
 Much of this content is copied from bash shell source code
@@ -112,7 +115,7 @@ WORD_LIST *list;
 
 /* built in fuction for cmd: {{.Name}} */
 
-{{.Name}}_builtin(list)
+int {{.Name}}_builtin(list)
 WORD_LIST *list;
 {
     int ret = EXECUTION_SUCCESS;
