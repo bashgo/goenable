@@ -127,6 +127,8 @@ WORD_LIST *list;
     word_list_to_string_slice(&slice, list);
     ret = {{.Name}}(slice);
     cfree(slice.data);
+    fflush(stdout);
+    fflush(stderr);
 
     return ret;
 }
